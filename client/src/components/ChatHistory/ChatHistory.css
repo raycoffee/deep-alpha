@@ -1,0 +1,126 @@
+.chat-history {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #1a1a1a;
+  }
+  
+  .new-chat-container {
+    padding: 1rem;
+  }
+  
+  .new-chat-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    border: 1px solid #4a4a4a;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    transition: background-color 0.2s;
+  }
+  
+  .new-chat-button:hover {
+    background-color: #2a2a2a;
+  }
+  
+  .new-chat-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .chat-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem;
+  }
+  
+  .chat-history-item {
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+    color: #d1d1d1;
+  }
+  
+  .chat-history-item:hover {
+    background-color: #2a2a2a;
+  }
+  
+  .chat-history-item.active {
+    background-color: #2a2a2a;
+    color: white;
+  }
+  
+  .chat-history-item-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .chat-history-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .chat-history-text {
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  .chat-history-title {
+    font-weight: 500;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .chat-history-message {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .chat-history-time {
+    font-size: 0.75rem;
+    color: #9ca3af;
+  }
+  
+  .user-profile {
+    padding: 1rem;
+    border-top: 1px solid #2a2a2a;
+  }
+  
+  .user-profile-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #d1d1d1;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .user-profile-content:hover {
+    background-color: #2a2a2a;
+  }
+  
+  .user-avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    background-color: #4a4a4a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .user-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
