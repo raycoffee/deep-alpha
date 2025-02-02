@@ -4,7 +4,10 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import ChatHistory from './components/ChatHistory/ChatHistory';
 import ChatWindow from './components/ChatWindow/ChatWindow';
 import ChatInput from './components/ChatInput/ChatInput';
+import axios from 'axios'
 import './App.css';
+
+const API_BASE_URL = 'http://localhost:3001/api';
 
 const App = () => {
   const [messages, setMessages] = useState([]);
@@ -13,15 +16,15 @@ const App = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const chats = [
-    { 
-      id: 1, 
-      title: 'React Development', 
+    {
+      id: 1,
+      title: 'React Development',
       lastMessage: 'Let\'s discuss component structure',
       timestamp: '2m ago'
     },
-    { 
-      id: 2, 
-      title: 'UI/UX Design', 
+    {
+      id: 2,
+      title: 'UI/UX Design',
       lastMessage: 'How about using a different color scheme?',
       timestamp: '1h ago'
     }
@@ -29,17 +32,39 @@ const App = () => {
 
   const handleSubmit = async (input) => {
     setIsLoading(true);
-    // Add user message
     setMessages(prev => [...prev, { role: 'user', content: input }]);
 
-    // Simulate AI response
-    setTimeout(() => {
-      setMessages(prev => [
-        ...prev,
-        { role: 'assistant', content: 'This is a simulated response.' }
-      ]);
+    try {
+
+      const response = await axios.post(`${API_BASE_URL}/analysis/analyze`, {
+        query: input
+      })
+
+      const { data } = response.data;
+
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: data.llmResponse.kwargs.content,
+        data: {
+          ticker: data.ticker,
+          stockData: data.stockData,
+          analysis: data.analysis
+        }
+      }]);
+
+    } catch (err) {
+      console.error('Error analyzing query:', err);
+      setError(err.response?.data?.error || 'Error analyzing your query');
+
+
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: 'Sorry, I encountered an error while analyzing your query. Please try again.',
+        error: true
+      }]);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
