@@ -85,7 +85,7 @@ const Message = ({ role, content, data, isLoading }) => (
   </div>
 );
 
-const EmptyState = ({ isNewChat }) => (
+const EmptyState = ({ isNewChat, onSubmit }) => (
   <div className="empty-state">
     <div className="empty-state-content">
       <FontAwesomeIcon icon={faChartLine} className="empty-state-icon" />
@@ -98,15 +98,24 @@ const EmptyState = ({ isNewChat }) => (
 
       {isNewChat && (
         <div className="suggestion-grid">
-          <div className="suggestion-item">
+          <div 
+            className="suggestion-item"
+            onClick={() => onSubmit("How is Apple performing?")}
+          >
             <FontAwesomeIcon icon={faSearch} className="suggestion-icon" />
             <span>"How is Apple performing?"</span>
           </div>
-          <div className="suggestion-item">
+          <div 
+            className="suggestion-item"
+            onClick={() => onSubmit("What's Tesla's revenue growth?")}
+          >
             <FontAwesomeIcon icon={faChartLine} className="suggestion-icon" />
             <span>"What's Tesla's revenue growth?"</span>
           </div>
-          <div className="suggestion-item">
+          <div 
+            className="suggestion-item"
+            onClick={() => onSubmit("Is Microsoft a good investment?")}
+          >
             <FontAwesomeIcon icon={faArrowTrendUp} className="suggestion-icon" />
             <span>"Is Microsoft a good investment?"</span>
           </div>
@@ -116,7 +125,7 @@ const EmptyState = ({ isNewChat }) => (
   </div>
 );
 
-const ChatWindow = ({ messages, isLoading, isNewChat = true }) => {
+const ChatWindow = ({ messages, isLoading, isNewChat = true, onSubmit }) => {
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -130,7 +139,7 @@ const ChatWindow = ({ messages, isLoading, isNewChat = true }) => {
   return (
     <div className="chat-window">
       {messages.length === 0 ? (
-        <EmptyState isNewChat={isNewChat} />
+        <EmptyState isNewChat={isNewChat} onSubmit={onSubmit}/>
       ) : (
         <div className="messages-container">
           {messages.map((message, index) => (

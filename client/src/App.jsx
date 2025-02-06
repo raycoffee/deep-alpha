@@ -201,7 +201,8 @@ const App = () => {
         <ChatWindow 
           messages={messages} 
           isLoading={isLoading}
-          isNewChat={!chatId} 
+          isNewChat={!chatId}
+          onSubmit={handleSubmit}
         />
         <ChatInput 
           onSubmit={handleSubmit} 
