@@ -105,13 +105,13 @@ const EmptyState = ({ isNewChat, onSubmit }) => (
             <FontAwesomeIcon icon={faSearch} className="suggestion-icon" />
             <span>"How is Apple performing?"</span>
           </div>
-          <div 
+          {/* <div 
             className="suggestion-item"
             onClick={() => onSubmit("What's Tesla's revenue growth?")}
           >
             <FontAwesomeIcon icon={faChartLine} className="suggestion-icon" />
             <span>"What's Tesla's revenue growth?"</span>
-          </div>
+          </div> */}
           <div 
             className="suggestion-item"
             onClick={() => onSubmit("Is Microsoft a good investment?")}
