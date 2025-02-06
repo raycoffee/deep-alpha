@@ -24,7 +24,7 @@ mongoose.connect(process.env.DATABASE)
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://deepalpha.pro'],
+  origin: ['http://localhost:5173', 'https://deepalpha.pro', 'https://api.deepalpha.pro'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
