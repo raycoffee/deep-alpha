@@ -71,3 +71,25 @@ export const generateAnalysisResponse = async (model, {
         throw error;
     }
 };
+
+export const generateConversationResponse = async (model, query, chatHistory) => {
+    const template = ChatPromptTemplate.fromMessages([
+        ["system", `You are a financial analysis assistant having a conversation about stocks.
+Use the chat history for context to provide helpful, informed responses.`],
+        ["user", `Previous conversation:
+{history}
+
+Current query: {query}
+
+Provide a helpful response based on the context of the conversation.`]
+    ]);
+
+    const chain = template.pipe(model);
+    
+    const response = await chain.invoke({
+        query,
+        history: chatHistory.map(msg => `${msg.role}: ${msg.content}`).join('\n')
+    });
+
+    return response;
+};

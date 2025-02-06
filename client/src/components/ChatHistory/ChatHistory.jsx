@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRobot, faPlus } from '@fortawesome/free-solid-svg-icons';
+import DeepAlphaLogo from "../../assets/DeepAlpha-logo-dark.png"
 import './ChatHistory.css';
 
 const ChatHistoryItem = ({ title, active, onClick, lastMessage, timestamp }) => (
@@ -23,11 +24,12 @@ const ChatHistoryItem = ({ title, active, onClick, lastMessage, timestamp }) => 
   </button>
 );
 
-const ChatHistory = ({ chats, selectedChat, onSelectChat }) => {
+const ChatHistory = ({ chats, selectedChat, onSelectChat, onNewChat }) => {
   return (
     <div className="chat-history">
       <div className="new-chat-container">
-        <button className="new-chat-button">
+      <img src={DeepAlphaLogo} alt="Logo" className="main-logo" /> {/* Use the imported image */}
+        <button className="new-chat-button" onClick={() => onNewChat()}>
           <FontAwesomeIcon icon={faPlus} className="new-chat-icon" />
           <span>New Chat</span>
         </button>

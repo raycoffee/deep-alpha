@@ -4,8 +4,8 @@ import { ChatAnthropic } from "@langchain/anthropic";
 import { extractTicker } from "../services/analysis/tickerExtractor.js";
 import analyzeQuestion from "../services/analysis/questionAnalyzer.js";
 import { fetchRequiredData } from "../services/analysis/metricsMapper.js";
-import { generateAnalysisResponse } from "../services/analysis/responseGenerator.js";
-import { saveChatHistory, getChatHistory } from "../services/upstash/chatHistory.js";
+import { generateAnalysisResponse, generateConversationResponse } from "../services/analysis/responseGenerator.js";
+import { chatService } from '../services/chat/chatService.js';
 
 configDotenv();
 
@@ -18,7 +18,8 @@ const model = new ChatAnthropic({
 
 export const analyzeStock = async (req, res) => {
     try {
-        const { query, sessionId } = req.body;
+        const { query, chatId } = req.body;
+        const userId = req.user.id;
 
         if (!query) {
             return res.status(400).json({
@@ -27,76 +28,117 @@ export const analyzeStock = async (req, res) => {
             });
         }
 
-        // Step 1: Extract ticker
-        const tickerInfo = await extractTicker(model, query);
-        if (!tickerInfo.ticker) {
-            return res.status(400).json({
-                success: false,
-                error: 'No stock ticker found in query'
+        // Get or create chat and get chat history
+        let chat;
+        let chatHistory = [];
+        try {
+            if (chatId) {
+                chat = await chatService.getChat(userId, chatId);
+                if (!chat) {
+                    return res.status(404).json({
+                        success: false,
+                        error: 'Chat not found'
+                    });
+                }
+                chatHistory = chat.messages;
+            } else {
+                chat = await chatService.createChat(userId, 'New Stock Analysis');
+            }
+
+            // Save user's query
+            await chatService.addMessage(userId, chat.id, {
+                role: 'user',
+                content: query
             });
+        } catch (error) {
+            console.error('Chat service error:', error);
         }
 
-        // Step 2: Analyze question
-        const questionAnalysis = await analyzeQuestion(model, query);
+        let responseData = {};
+        let analysisResponse;
 
-        
-        // Step 3: Fetch stock data
-        const stockData = await fetchRequiredData(
-            tickerInfo.ticker,
-            questionAnalysis.category,
-            questionAnalysis.specificMetrics,
-            questionAnalysis.timeframe
-        );
+        // Try to extract ticker first
+        const tickerInfo = await extractTicker(model, query);
 
-        // Step 4: Handle comparison if needed
-        let comparisonData = null;
-        if (questionAnalysis.category === 'COMPARISON' && questionAnalysis.comparisonTickers) {
-            comparisonData = await Promise.all(
-                questionAnalysis.comparisonTickers.map(async (ticker) => {
-                    if (ticker !== tickerInfo.ticker) {
-                        return await fetchRequiredData(
-                            ticker,
-                            questionAnalysis.category,
-                            questionAnalysis.specificMetrics,
-                            questionAnalysis.timeframe
-                        );
-                    }
-                })
+        // If we have a ticker, do stock analysis
+        if (tickerInfo.ticker) {
+            const questionAnalysis = await analyzeQuestion(model, query);
+            const questionAnalysisObj = JSON.parse(questionAnalysis);
+
+            const stockData = await fetchRequiredData(
+                tickerInfo.ticker,
+                questionAnalysisObj.category,
+                questionAnalysisObj.specificMetrics,
+                questionAnalysisObj.timeframe
             );
-        }
 
-        // Step 5: Generate LLM analysis
-        const analysisResponse = await generateAnalysisResponse(model, {
-            query,
-            category: questionAnalysis.category,
-            timeframe: questionAnalysis.timeframe,
-            stockData,
-            comparisonData
-        });
+            let comparisonData = null;
+            if (questionAnalysisObj.category === 'COMPARISON' && questionAnalysisObj.comparisonTickers) {
+                comparisonData = await Promise.all(
+                    questionAnalysisObj.comparisonTickers.map(async (ticker) => {
+                        if (ticker !== tickerInfo.ticker) {
+                            return await fetchRequiredData(
+                                ticker,
+                                questionAnalysisObj.category,
+                                questionAnalysisObj.specificMetrics,
+                                questionAnalysisObj.timeframe
+                            );
+                        }
+                    })
+                );
+            }
 
-        // Step 6: Prepare final response
-        const response = {
-            success: true,
-            data: {
+            analysisResponse = await generateAnalysisResponse(model, {
+                query,
+                category: questionAnalysisObj.category,
+                timeframe: questionAnalysisObj.timeframe,
+                stockData,
+                comparisonData,
+                chatHistory
+            });
+
+            responseData = {
                 query,
                 ticker: tickerInfo.ticker,
-                analysis: questionAnalysis,
+                analysis: questionAnalysisObj,
                 stockData,
                 comparisonData,
                 llmResponse: analysisResponse
-            }
-        };
-
-        // Step 7: Save to chat history
-        if (sessionId) {
-            await saveChatHistory(sessionId, {
+            };
+        } else {
+            // If no ticker found, just have a conversation with context
+            analysisResponse = await generateConversationResponse(model, query, chatHistory);
+            responseData = {
                 query,
-                response: response.data,
-                timestamp: new Date()
-            });
+                llmResponse: analysisResponse
+            };
         }
 
-        res.json(response);
+        // Save AI response to chat
+        try {
+            if (chat) {
+                await chatService.addMessage(userId, chat.id, {
+                    role: 'assistant',
+                    content: analysisResponse.content,
+                    data: responseData
+                });
+
+                // Update chat title if it's new and we have a ticker
+                if (!chatId && tickerInfo?.ticker) {
+                    await chatService.updateChatTitle(userId, chat.id, `${tickerInfo.ticker} Analysis`);
+                }
+            }
+        } catch (error) {
+            console.error('Error saving chat:', error);
+        }
+
+        res.json({
+            success: true,
+            data: {
+                chat,
+                ...responseData
+            }
+        });
 
     } catch (error) {
         console.error('Analysis error:', error);
@@ -107,19 +149,46 @@ export const analyzeStock = async (req, res) => {
     }
 };
 
-export const getChatHistoryHandler = async (req, res) => {
+export const getUserChats = async (req, res) => {
     try {
-        const { sessionId } = req.params;
-        const history = await getChatHistory(sessionId);
+        const userId = req.user.id;
+        const chats = await chatService.getUserChats(userId);
+
         res.json({
             success: true,
-            data: history
+            data: chats
         });
     } catch (error) {
-        console.error('Error fetching chat history:', error);
+        console.error('Error getting chats:', error);
         res.status(500).json({
             success: false,
-            error: error.message || 'Error fetching chat history'
+            error: 'Error getting chat history'
+        });
+    }
+};
+
+export const getChat = async (req, res) => {
+    try {
+        const { chatId } = req.params;
+        const userId = req.user.id;
+
+        const chat = await chatService.getChat(userId, chatId);
+        if (!chat) {
+            return res.status(404).json({
+                success: false,
+                error: 'Chat not found'
+            });
+        }
+
+        res.json({
+            success: true,
+            data: chat
+        });
+    } catch (error) {
+        console.error('Error getting chat:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Error getting chat'
         });
     }
 };

@@ -45,7 +45,7 @@ const metricToFunctionMap = {
     'volume': getCurrentPriceData,
     'fifty_day_avg': getCurrentPriceData,
     'two_hundred_day_avg': getCurrentPriceData,
-    
+
     'pe_ratio': getCompanyOverview,
     'price_to_book': getCompanyOverview,
     'market_cap': getCompanyOverview,
@@ -53,10 +53,10 @@ const metricToFunctionMap = {
     'sector': getCompanyOverview,
     'industry': getCompanyOverview,
     'profit_margins': getCompanyOverview,
-    
+
     'ytd_performance': getHistoricalPrices,
     'mtd_performance': getHistoricalPrices,
-    
+
     'analyst_recommendations': getAnalystRecommendations
 };
 
@@ -77,22 +77,28 @@ export const getDefaultMetrics = (category) => {
 
 // Main function to fetch all required data
 export const fetchRequiredData = async (symbol, category, specificMetrics = [], timeframe = 'CURRENT') => {
-    // Combine default metrics with specific metrics
+
+
     const defaultMetrics = getDefaultMetrics(category);
     const allMetrics = [...new Set([...defaultMetrics, ...specificMetrics])];
-    
+
+
+
     // Get all required functions
     const requiredFunctions = getRequiredFunctions(allMetrics);
-    
+
+
+
     try {
-        // Execute all required functions
+
         const results = await Promise.all(
             requiredFunctions.map(func => func(symbol))
         );
-        
+
+
         // Combine results
-        const combinedData = results.reduce((acc, result) => ({...acc, ...result}), {});
-        
+        const combinedData = results.reduce((acc, result) => ({ ...acc, ...result }), {});
+
         return {
             metrics: allMetrics,
             data: combinedData
