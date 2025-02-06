@@ -9,6 +9,7 @@ import { chatService } from '../services/chat/chatService.js';
 
 configDotenv();
 
+
 const model = new ChatAnthropic({
     anthropicApiKey: process.env.ANTHROPIC_API_KEY,
     model: "claude-3-haiku-20240307",

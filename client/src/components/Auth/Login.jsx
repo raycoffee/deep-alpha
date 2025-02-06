@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import DeepAlphaLogoDark from "../../assets/DeepAlpha-logo-dark.png"
 import './Login.css';
 
 const Login = () => {
@@ -34,6 +35,7 @@ const Login = () => {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
+          <img src={DeepAlphaLogoDark} className='deep-alpha-logo-main'/>
           <h1>Welcome Back</h1>
           <p>Enter your credentials to access your account</p>
         </div>

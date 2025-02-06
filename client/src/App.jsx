@@ -7,10 +7,11 @@ import ChatWindow from './components/ChatWindow/ChatWindow';
 import ChatInput from './components/ChatInput/ChatInput';
 import Login from './components/Auth/Login';
 import { useAuth } from './context/AuthContext';
+import { configDotenv } from "dotenv";
 import axios from 'axios';
 import './App.css';
 
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const App = () => {
   const { chatId } = useParams();

@@ -1,70 +1,73 @@
 .chat-input-container {
-    border-top: 1px solid #e5e7eb;
-    background-color: white;
-    padding: 1rem;
-  }
-  
-  .chat-input-wrapper {
-    max-width: 48rem;
-    margin: 0 auto;
-  }
-  
-  .chat-form {
-    position: relative;
-  }
-  
-  .chat-textarea {
-    width: 100%;
-    padding: 1rem;
-    padding-right: 3rem;
-    border-radius: 0.5rem;
-    border: 1px solid #e5e7eb;
-    resize: none;
-    overflow: hidden;
-    min-height: 60px;
-    max-height: 200px;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  
-  .chat-textarea:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-  }
-  
-  .chat-textarea:disabled {
-    background-color: #f9fafb;
-    cursor: not-allowed;
-  }
-  
-  .send-button {
-    position: absolute;
-    right: 0.5rem;
-    bottom: 0.5rem;
-    padding: 0.5rem;
-    color: #6b7280;
-    border-radius: 0.5rem;
-    transition: all 0.2s;
-  }
-  
-  .send-button:hover:not(:disabled) {
-    color: #374151;
-    background-color: #f3f4f6;
-  }
-  
-  .send-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
-  .send-icon {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-  
-  .input-hint {
-    text-align: center;
-    margin-top: 0.5rem;
-    font-size: 0.75rem;
-    color: #6b7280;
-  }
+  border-top: 1px solid rgb(76, 76, 76);
+  background-color: #434343;
+  padding: 1rem;
+  box-shadow: 0 -4px 6px -2px rgba(0, 0, 0, 0.1)\
+
+}
+
+.chat-input-wrapper {
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.chat-form {
+  position: relative;
+}
+
+.chat-textarea {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  resize: none;
+  overflow: hidden;
+  min-height: 60px;
+  max-height: 200px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background-color: rgb(76, 76, 76);
+  color: white;
+}
+
+.chat-textarea:focus {
+  border-color: #c1ff72;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.chat-textarea:disabled {
+  background-color: #f9fafb;
+  cursor: not-allowed;
+}
+
+.send-button {
+  position: absolute;
+  left: 99%;
+  top: 50%;
+  padding: 0.5rem;
+  color: #6b7280;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.send-button:hover:not(:disabled) {
+  color: #374151;
+  background-color: #f3f4f6;
+}
+
+.send-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.send-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.input-hint {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}

@@ -1,4 +1,3 @@
-// src/components/ChatWindow/ChatWindow.jsx
 import React, { useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -11,6 +10,7 @@ import {
   faArrowDown
 } from '@fortawesome/free-solid-svg-icons';
 import FormattedMessage from '../FormattedMessage/FormattedMessage';
+import DeepAlphaLogoIconBlack from "../../assets/DeepAlpha-icon-black.png"
 import './ChatWindow.css';
 
 // Stock data display components
@@ -50,10 +50,13 @@ const StockMetrics = ({ data }) => {
 const Message = ({ role, content, data, isLoading }) => (
   <div className={`message ${role === 'assistant' ? 'assistant' : 'user'}`}>
     <div className={`avatar ${role}`}>
-      <FontAwesomeIcon
+
+      {role === 'assistant' ? <img src={DeepAlphaLogoIconBlack} alt="Logo" className="main-logo-icon-black" /> : <FontAwesomeIcon
         icon={role === 'assistant' ? faRobot : faUser}
         className="avatar-icon"
-      />
+      />}
+
+
     </div>
     <div className="message-content">
       <div className="sender-name">
@@ -63,7 +66,7 @@ const Message = ({ role, content, data, isLoading }) => (
         {isLoading ? (
           <div className="loading-indicator">
             <FontAwesomeIcon icon={faSpinner} className="loading-icon fa-spin" />
-            <span>Analyzing stocks...</span>
+            <span>Thinking...</span>
           </div>
         ) : (
           <>
@@ -87,7 +90,7 @@ const EmptyState = ({ isNewChat }) => (
     <div className="empty-state-content">
       <FontAwesomeIcon icon={faChartLine} className="empty-state-icon" />
       <h2 className="empty-state-title">
-        {isNewChat ? 'Welcome to Stock Analysis' : 'Select a Chat'}
+        {isNewChat ? 'Welcome to DeepAlpha Pro' : 'Select a Chat'}
       </h2>
       <p className="empty-state-text">
         {isNewChat ? 'Start by asking any question about stocks:' : 'Choose a previous analysis or start a new one'}

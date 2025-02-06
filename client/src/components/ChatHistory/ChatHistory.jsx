@@ -2,9 +2,11 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRobot, faPlus } from '@fortawesome/free-solid-svg-icons';
 import DeepAlphaLogo from "../../assets/DeepAlpha-logo-dark.png"
+import { useAuth } from '../../context/AuthContext';
 import './ChatHistory.css';
 
 const ChatHistoryItem = ({ title, active, onClick, lastMessage, timestamp }) => (
+  
   <button
     onClick={onClick}
     className={`chat-history-item ${active ? 'active' : ''}`}
@@ -25,10 +27,11 @@ const ChatHistoryItem = ({ title, active, onClick, lastMessage, timestamp }) => 
 );
 
 const ChatHistory = ({ chats, selectedChat, onSelectChat, onNewChat }) => {
+  const { user, loading, logout } = useAuth();
   return (
     <div className="chat-history">
       <div className="new-chat-container">
-      <img src={DeepAlphaLogo} alt="Logo" className="main-logo" /> {/* Use the imported image */}
+      <img src={DeepAlphaLogo} alt="Logo" className="main-logo" />
         <button className="new-chat-button" onClick={() => onNewChat()}>
           <FontAwesomeIcon icon={faPlus} className="new-chat-icon" />
           <span>New Chat</span>
@@ -51,9 +54,9 @@ const ChatHistory = ({ chats, selectedChat, onSelectChat, onNewChat }) => {
       <div className="user-profile">
         <div className="user-profile-content">
           <div className="user-avatar">
-            <span>JD</span>
+            <span>{user.name[0]}</span>
           </div>
-          <span className="user-name">John Doe</span>
+          <span className="user-name">{user.name}</span>
         </div>
       </div>
     </div>

@@ -42,9 +42,7 @@ const ChatInput = ({ onSubmit, isLoading }) => {
             <FontAwesomeIcon icon={faPaperPlane} className="send-icon" />
           </button>
         </form>
-        <div className="input-hint">
-          Press Enter to send, Shift + Enter for new line
-        </div>
+
       </div>
     </div>
   );

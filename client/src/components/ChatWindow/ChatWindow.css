@@ -19,19 +19,19 @@
 
 .empty-state-icon {
   font-size: 3rem;
-  color: #6b7280;
+  color: #ffffff;
   margin-bottom: 1rem;
 }
 
 .empty-state-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #111827;
+  color: #ffffff;
   margin-bottom: 0.5rem;
 }
 
 .empty-state-text {
-  color: #6b7280;
+  color: #ffffff;
   font-size: 1rem;
 }
 
@@ -47,12 +47,14 @@
   padding: 1.5rem;
   margin-bottom: 1rem;
   border-radius: 0.75rem;
-  background-color: white;
+  background-color: rgb(0, 0, 0);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .message.assistant {
-  background-color: #f8faff;
+  background-color: rgb(62, 61, 61);
 }
 
 .avatar {
@@ -66,11 +68,15 @@
 }
 
 .avatar.assistant {
-  background-color: #3b82f6;
+  background-color: #c1ff72;
 }
 
 .avatar.user {
   background-color: #10b981;
+}
+
+.main-logo-icon-black {
+  width: 70%;
 }
 
 .avatar-icon {
@@ -86,12 +92,12 @@
 
 .sender-name {
   font-weight: 600;
-  color: #111827;
+  color: #ffffff;
   margin-bottom: 0.5rem;
 }
 
 .message-text {
-  color: #374151;
+  color: #ffffff;
   line-height: 1.5;
 }
 
@@ -115,7 +121,8 @@
 }
 
 .stock-metrics {
-  background-color: white;
+  background-color: #1e293b;
+  color: white;
   border-radius: 0.5rem;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -134,7 +141,7 @@
 .stock-symbol {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #111827;
+  color: white;
 }
 
 .stock-price {
@@ -213,7 +220,7 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background-color: white;
+  background-color: rgb(94, 92, 92);
   border-radius: 1rem;
   margin: 1rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -226,7 +233,7 @@
 
 .empty-state-icon {
   font-size: 3rem;
-  color: #3b82f6; /* Changed to blue to match theme */
+  color: #c1ff72; /* Changed to blue to match theme */
   margin-bottom: 1.5rem;
 }
 

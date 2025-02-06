@@ -4,33 +4,35 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f3f4f6;
+    background-color: #5c5c5c;
     padding: 1rem;
   }
   
   .login-card {
-    background-color: white;
+    background-color: rgb(46, 46, 46);
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     width: 100%;
     max-width: 400px;
+    color: white;
   }
   
   .login-header {
     text-align: center;
     margin-bottom: 2rem;
+    color: white;
   }
   
   .login-header h1 {
     font-size: 1.5rem;
     font-weight: 600;
-    color: #111827;
+    color: #f6f6f6;
     margin-bottom: 0.5rem;
   }
   
   .login-header p {
-    color: #6b7280;
+    color: #cecfd0;
     font-size: 0.875rem;
   }
   
@@ -49,7 +51,7 @@
   .form-group label {
     font-size: 0.875rem;
     font-weight: 500;
-    color: #374151;
+    color: #ffffff;
   }
   
   .form-input {
@@ -67,8 +69,8 @@
   }
   
   .login-button {
-    background-color: #2563eb;
-    color: white;
+    background-color: #c1ff72;
+    color: rgb(0, 0, 0);
     padding: 0.75rem 1rem;
     border: none;
     border-radius: 0.5rem;
@@ -78,7 +80,7 @@
   }
   
   .login-button:hover:not(:disabled) {
-    background-color: #1d4ed8;
+    background-color: #94e827;
   }
   
   .login-button:disabled {
@@ -99,13 +101,13 @@
     margin-top: 2rem;
     text-align: center;
     font-size: 0.875rem;
-    color: #6b7280;
+    color: #ffffff;
   }
   
   .link-button {
     background: none;
     border: none;
-    color: #2563eb;
+    color: #c1ff72;
     font-weight: 500;
     cursor: pointer;
     padding: 0;
@@ -113,4 +115,9 @@
   
   .link-button:hover {
     text-decoration: underline;
+  }
+
+  .deep-alpha-logo-main {
+    width: 50%;
+    margin-bottom: 50px;
   }

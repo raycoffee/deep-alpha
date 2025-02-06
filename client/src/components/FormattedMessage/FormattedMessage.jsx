@@ -13,27 +13,27 @@ const SECTION_CONFIG = {
   'QUICK OVERVIEW': {
     icon: faLightbulb,
     className: 'overview',
-    color: '#3b82f6'
+    color: '#5ce1e6'
   },
   'PRICE ANALYSIS': {
     icon: faChartLine,
     className: 'price',
-    color: '#10b981'
+    color: '#c1ff72'
   },
   'FUNDAMENTAL METRICS': {
     icon: faChartPie,
     className: 'metrics',
-    color: '#8b5cf6'
+    color: '#dab8ff'
   },
   'KEY TAKEAWAYS': {
     icon: faListCheck,
     className: 'takeaways',
-    color: '#f59e0b'
+    color: '#ffde59'
   },
   'RISK FACTORS': {
     icon: faTriangleExclamation,
     className: 'risks',
-    color: '#ef4444'
+    color: 'white'
   }
 };
 
@@ -132,9 +132,9 @@ const FormattedMessage = ({ content }) => {
 
 
 const formatNumbers = (text) => {
-  // Format percentages
+  // Format percentages - Match numbers that end directly with %
   text = text.replace(
-    /([-+]?\d*\.?\d+%)/g,
+    /(-?\d+\.?\d*(?:\s*%|%))/g,
     (match) => {
       const value = parseFloat(match);
       const isPositive = value >= 0;
