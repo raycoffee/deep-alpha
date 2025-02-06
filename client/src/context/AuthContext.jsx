@@ -6,6 +6,8 @@ import { configDotenv } from "dotenv";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
+
+
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
@@ -15,7 +17,7 @@ export const AuthProvider = ({ children }) => {
 
 
   const checkAuth = async () => {
-    console.log(API_BASE_URL, "✅")
+
     try {
       const response = await axios.get(`${API_BASE_URL}/auth/me`, {
         withCredentials: true

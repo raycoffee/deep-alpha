@@ -129,7 +129,6 @@ const App = () => {
   };
 
   const startNewChat = () => {
-    console.log("I was hit", "🥶")
     navigate('/');
     setMessages([]);
   };
