@@ -48,6 +48,7 @@ const Section = ({ title, content }) => {
     line = line.trim();
     if (!line) return null;
 
+
     // Handle bullet points (both - and numbered)
     if (line.match(/^(-|\d+\.)\s/)) {
       return (
@@ -78,6 +79,7 @@ const FormattedMessage = ({ content }) => {
   const sections = content.split(/(?=\d\.\s+(?:QUICK OVERVIEW|PRICE ANALYSIS|FUNDAMENTAL METRICS|KEY TAKEAWAYS|RISK FACTORS))/g);
 
   // Process sections if they exist
+
   const processedSections = sections
     .map(section => {
       const match = section.match(/\d\.\s+((?:QUICK OVERVIEW|PRICE ANALYSIS|FUNDAMENTAL METRICS|KEY TAKEAWAYS|RISK FACTORS))([\s\S]*)/);

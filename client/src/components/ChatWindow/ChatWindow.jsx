@@ -17,32 +17,40 @@ import './ChatWindow.css';
 const StockMetrics = ({ data }) => {
   if (!data?.stockData?.data) return null;
 
-
-
   const { currentPrice, priceChangePercent, marketCap } = data.stockData.data;
+
+  // Don't render if no price data
+  if (!currentPrice) return null;
+
   const isPositive = priceChangePercent > 0;
 
   return (
     <div className="stock-metrics">
       <div className="metrics-header">
-        <div className="stock-symbol">{data.ticker}</div>
+        {data.ticker && (
+          <div className="stock-symbol">{data.ticker}</div>
+        )}
         <div className="stock-price">
           <FontAwesomeIcon icon={faChartLine} />
-          ${currentPrice?.toFixed(2)}
-          <span className={`price-change ${isPositive ? 'positive' : 'negative'}`}>
-            <FontAwesomeIcon icon={isPositive ? faArrowTrendUp : faArrowDown} />
-            {Math.abs(priceChangePercent)?.toFixed(2)}%
-          </span>
+          ${currentPrice.toFixed(2)}
+          {priceChangePercent != null && (
+            <span className={`price-change ${isPositive ? 'positive' : 'negative'}`}>
+              <FontAwesomeIcon icon={isPositive ? faArrowTrendUp : faArrowDown} />
+              {Math.abs(priceChangePercent).toFixed(2)}%
+            </span>
+          )}
         </div>
       </div>
-      <div className="metrics-grid">
-        <div className="metric-item">
-          <div className="metric-label">Market Cap</div>
-          <div className="metric-value">
-            ${(marketCap / 1e9)?.toFixed(2)}B
+      {marketCap != null && (
+        <div className="metrics-grid">
+          <div className="metric-item">
+            <div className="metric-label">Market Cap</div>
+            <div className="metric-value">
+              ${(marketCap / 1e9).toFixed(2)}B
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
@@ -50,13 +58,18 @@ const StockMetrics = ({ data }) => {
 const Message = ({ role, content, data, isLoading }) => (
   <div className={`message ${role === 'assistant' ? 'assistant' : 'user'}`}>
     <div className={`avatar ${role}`}>
-
-      {role === 'assistant' ? <img src={DeepAlphaLogoIconBlack} alt="Logo" className="main-logo-icon-black" /> : <FontAwesomeIcon
-        icon={role === 'assistant' ? faRobot : faUser}
-        className="avatar-icon"
-      />}
-
-
+      {role === 'assistant' ? (
+        <img 
+          src={DeepAlphaLogoIconBlack} 
+          alt="Logo" 
+          className="main-logo-icon-black" 
+        />
+      ) : (
+        <FontAwesomeIcon
+          icon={role === 'assistant' ? faRobot : faUser}
+          className="avatar-icon"
+        />
+      )}
     </div>
     <div className="message-content">
       <div className="sender-name">
@@ -105,13 +118,6 @@ const EmptyState = ({ isNewChat, onSubmit }) => (
             <FontAwesomeIcon icon={faSearch} className="suggestion-icon" />
             <span>"How is Apple performing?"</span>
           </div>
-          {/* <div 
-            className="suggestion-item"
-            onClick={() => onSubmit("What's Tesla's revenue growth?")}
-          >
-            <FontAwesomeIcon icon={faChartLine} className="suggestion-icon" />
-            <span>"What's Tesla's revenue growth?"</span>
-          </div> */}
           <div 
             className="suggestion-item"
             onClick={() => onSubmit("Is Microsoft a good investment?")}

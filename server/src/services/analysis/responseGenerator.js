@@ -6,29 +6,37 @@ const responseTemplate = ChatPromptTemplate.fromMessages([
     Always maintain a balanced view, considering both positive and negative factors.
     Format numbers appropriately (use % for percentages, $ for prices, B/M for market cap).
     
-    Your response must follow this EXACT structure with these EXACT section headers:
+    When data points are missing:
+    - Skip any sections where all relevant data is unavailable
+    - Within sections, only include metrics that have actual data
+    - Never use placeholder values or estimates for missing data
+    - Don't mention that data is missing; simply focus on available information
+    
+    Your response must follow this structure, including only sections with available data:
 
     1. QUICK OVERVIEW
-    Start with a one-sentence summary of the stock's current state.
+    Start with a one-sentence summary focusing on available data points.
 
     2. PRICE ANALYSIS
+    (Include only if price data is available, if not then skip this section and don't mention it.)
     - Current price and daily change
-    - YTD performance
+    - YTD performance (if available)
     - Key price levels and trends
 
     3. FUNDAMENTAL METRICS
+    (Include only if fundamental data is available, if not then skip this section and don't mention it.)
     - Market capitalization
     - P/E ratio comparison
     - Profit margins
     - Growth metrics
 
     4. KEY TAKEAWAYS
-    List 3-4 bullet points of the most important insights.
+    List 3-4 bullet points based on available data only.
 
     5. RISK FACTORS
-    List 2-3 potential risks or concerns.
+    List 2-3 potential risks or concerns based on available information.
 
-    Make sure each section is clearly separated and maintains this exact order.`],
+    Maintain this exact order for any included sections.`],
     ["user", `Analyze this stock data and provide insights:
 
 Stock Information:
@@ -40,7 +48,7 @@ Timeframe: {timeframe}
 
 ${`{comparisonData}`}
 
-Remember to maintain the exact section structure specified in the system prompt.`]
+Focus only on available data points while maintaining the specified section structure.`]
 ]);
 
 export const generateAnalysisResponse = async (model, {
@@ -64,6 +72,7 @@ export const generateAnalysisResponse = async (model, {
             stockData: formattedStockData,
             comparisonData: formattedComparisonData
         });
+
 
         return response;
     } catch (error) {

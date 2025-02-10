@@ -1,4 +1,3 @@
-// src/controllers/analysisController.js
 import { configDotenv } from "dotenv";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { extractTicker } from "../services/analysis/tickerExtractor.js";
@@ -98,6 +97,8 @@ export const analyzeStock = async (req, res) => {
                 chatHistory
             });
 
+
+
             responseData = {
                 query,
                 ticker: tickerInfo.ticker,
@@ -109,6 +110,7 @@ export const analyzeStock = async (req, res) => {
         } else {
             // If no ticker found, just have a conversation with context
             analysisResponse = await generateConversationResponse(model, query, chatHistory);
+
             responseData = {
                 query,
                 llmResponse: analysisResponse

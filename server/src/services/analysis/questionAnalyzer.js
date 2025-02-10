@@ -12,12 +12,48 @@ Identify the type of information the user is seeking. Categories include:
 4. **COMPARISON** - Comparing multiple stocks (e.g., "Which is better, AAPL or MSFT?")
 5. **FUNDAMENTALS** - Questions about company financials (e.g., "What's Tesla's profit margin?", "How much revenue does AAPL make?")
 
-The strict options to choose for "category" are  PERFORMANCE, VALUATION, RECOMMENDATION, COMPARISON, FUNDAMENTALS.
+The strict options to choose for "category" are PERFORMANCE, VALUATION, RECOMMENDATION, COMPARISON, FUNDAMENTALS.
 
-The strict options to choose for "specificMetrics" is "pe_ratio", "revenue_growth", "profit_margin", "stock_price", "ytd_performance", all inside an array.
+The strict options to choose for "specificMetrics" are:
+// Financial Performance
+"revenue",
+"net_income",
+"operating_income",
+"ebitda",
+"fcf",
+"gross_margin",
+"operating_margin",
+"profit_margin",
+
+// Valuation
+"pe_ratio",
+"market_cap",
+"ev",
+"ps_ratio",
+"pb_ratio",
+"ev_ebitda",
+"dividend_yield",
+
+// Growth Metrics
+"revenue_growth",
+"eps_growth",
+"debt_equity",
+"roa",
+"roe",
+"asset_turnover",
+"inventory_turnover",
+
+// Trading & Performance
+"stock_price",
+"ytd_performance",
+"volume",
+"beta",
+"short_ratio",
+"moving_avg_50",
+"moving_avg_200",
+"rsi"
 
 The strict options for timeframe are YTD, MTD, QTD, 1Y, ALL, CURRENT.
-
 
 Provide your analysis in the following JSON structure as key-value pairs and ONLY choose from the listed options:
 

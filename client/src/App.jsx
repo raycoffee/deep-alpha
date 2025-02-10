@@ -36,6 +36,8 @@ const App = () => {
     }
   };
 
+
+
   // Load specific chat when chatId changes
   const loadChat = async (id) => {
     if (!id) {
@@ -90,6 +92,8 @@ const App = () => {
 
       const { data } = response.data;
 
+
+
       // Update messages with AI response
       setMessages(prev => [...prev, {
         role: 'assistant',
@@ -109,7 +113,7 @@ const App = () => {
     } catch (err) {
       console.error('Error analyzing query:', err);
       setError(err.response?.data?.error || 'Error analyzing your query');
-      
+
       setMessages(prev => [...prev, {
         role: 'assistant',
         content: 'Sorry, I encountered an error while analyzing your query. Please try again.',
@@ -176,7 +180,7 @@ const App = () => {
               className="menu-button"
             >
               {isSidebarOpen ? <FontAwesomeIcon icon={faSquareCaretLeft} className="menu-icon" /> : <FontAwesomeIcon icon={faSquareCaretRight} className="menu-icon" />}
-              
+
             </button>
             <h1 className="header-title">
               {currentChat?.title || 'New Stock Analysis'}
@@ -198,14 +202,16 @@ const App = () => {
           </div>
         )}
 
-        <ChatWindow 
-          messages={messages} 
+
+
+        <ChatWindow
+          messages={messages}
           isLoading={isLoading}
           isNewChat={!chatId}
           onSubmit={handleSubmit}
         />
-        <ChatInput 
-          onSubmit={handleSubmit} 
+        <ChatInput
+          onSubmit={handleSubmit}
           isLoading={isLoading}
           placeholder={!chatId ? "Ask about any stock (e.g., 'How is Apple performing?')" : "Type your message..."}
         />
